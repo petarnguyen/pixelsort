@@ -2,7 +2,7 @@
 *.pyc
 
 #VirtualEnv
-venv
+.venv
 
 #PyCharm
 .idea
