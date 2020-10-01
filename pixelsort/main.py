@@ -9,15 +9,10 @@ from pixelsort.sorting import choices as sorting_choices
 
 
 def pixelsort(
-    image,
-    mask_image=None,
-    interval_image=None,
-    randomness=DEFAULTS["randomness"],
-    clength=DEFAULTS["clength"],
-    sorting_function=DEFAULTS["sorting_function"],
+    image, mask_image=None, interval_image=None, randomness=DEFAULTS["randomness"],
+    clength=DEFAULTS["clength"], sorting_function=DEFAULTS["sorting_function"],
     interval_function=DEFAULTS["interval_function"],
-    lower_threshold=DEFAULTS["lower_threshold"],
-    upper_threshold=DEFAULTS["upper_threshold"],
+    lower_threshold=DEFAULTS["lower_threshold"], upper_threshold=DEFAULTS["upper_threshold"],
     angle=DEFAULTS["angle"]
 ):
 
@@ -25,18 +20,14 @@ def pixelsort(
     image = image.convert('RGBA').rotate(angle, expand=True)
     image_data = image.load()
 
-    mask_image = mask_image if mask_image else Image.new(
-        "1", original.size, color=255)
+    mask_image = mask_image if mask_image else Image.new("1", original.size, color=255)
 
-    mask_data = (mask_image
-                 .convert('1')
-                 .rotate(angle, expand=True, fillcolor=0)
-                 .load())
+    mask_data = (mask_image.convert('1').rotate(angle, expand=True, fillcolor=0).load())
 
-    interval_image = (interval_image
-                      .convert('1')
-                      .rotate(angle, expand=True)) if interval_image else None
+    interval_image = (interval_image.convert('1').rotate(angle, expand=True)) if interval_image else None
+
     logging.debug("Determining intervals...")
+
     intervals = interval_choices[interval_function](
         image,
         lower_threshold=lower_threshold,
@@ -44,7 +35,9 @@ def pixelsort(
         clength=clength,
         interval_image=interval_image,
     )
+
     logging.debug("Sorting pixels...")
+
     sorted_pixels = sort_image(
         image.size,
         image_data,
@@ -58,6 +51,7 @@ def pixelsort(
         mask_data,
         image_data,
         image.size)
+
     if angle != 0:
         output_img = output_img.rotate(-angle, expand=True)
         output_img = crop_to(output_img, original)

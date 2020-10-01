@@ -1,13 +1,7 @@
 import random
 
 
-def sort_image(
-        size,
-        image_data,
-        mask_data,
-        intervals,
-        randomness,
-        sorting_function):
+def sort_image(size, image_data, mask_data, intervals, randomness, sorting_function):
     sorted_pixels = []
 
     for y in range(size[1]):
